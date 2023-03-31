@@ -1,6 +1,6 @@
 Name:		texlive-arabicfront
 Version:	51474
-Release:	1
+Release:	2
 Summary:	Frontmatter with arabic page numbers
 Group:		Publishing
 URL:		http://www.ctan.org/tex-archive/macros/latex/contrib/arabicfront
