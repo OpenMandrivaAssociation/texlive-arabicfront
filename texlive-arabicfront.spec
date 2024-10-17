@@ -3,7 +3,7 @@ Version:	51474
 Release:	2
 Summary:	Frontmatter with arabic page numbers
 Group:		Publishing
-URL:		http://www.ctan.org/tex-archive/macros/latex/contrib/arabicfront
+URL:		https://www.ctan.org/tex-archive/macros/latex/contrib/arabicfront
 License:	mit
 Source0:	http://mirrors.ctan.org/systems/texlive/tlnet/archive/arabicfront.r%{version}.tar.xz
 Source1:	http://mirrors.ctan.org/systems/texlive/tlnet/archive/arabicfront.doc.r%{version}.tar.xz
