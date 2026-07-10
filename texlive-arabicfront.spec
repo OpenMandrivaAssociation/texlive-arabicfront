@@ -1,40 +1,26 @@
-Name:		texlive-arabicfront
-Version:	51474
-Release:	2
+%global tl_name arabicfront
+%global tl_revision 79618
+
+Name:		texlive-%{tl_name}
+Epoch:		1
+Version:	1.1
+Release:	%{tl_revision}.1
 Summary:	Frontmatter with arabic page numbers
 Group:		Publishing
 URL:		https://www.ctan.org/tex-archive/macros/latex/contrib/arabicfront
 License:	mit
-Source0:	http://mirrors.ctan.org/systems/texlive/tlnet/archive/arabicfront.r%{version}.tar.xz
-Source1:	http://mirrors.ctan.org/systems/texlive/tlnet/archive/arabicfront.doc.r%{version}.tar.xz
+Source0:	https://mirrors.ctan.org/systems/texlive/tlnet/archive/arabicfront.r%{tl_revision}.tar.xz
+Source1:	https://mirrors.ctan.org/systems/texlive/tlnet/archive/arabicfront.doc.r%{tl_revision}.tar.xz
 BuildArch:	noarch
+BuildSystem:	texlive
 BuildRequires:	texlive-tlpkg
-Requires(pre):	texlive-tlpkg
-Requires(post):	texlive-kpathsea
+%texlive_base_requires
+Provides:	texlive(%{tl_name}) = %{tl_revision}
 
 %description
-This package modifies the definitions of \frontmatter and
-\mainmatter so that page numbering starts in arabic style from
-the front matter while preserving the rest of the original
-definitions. For it to work, \pagenumbering has to be inside
-these macros--most of classes do that, but there are exceptions
-like memoir.
+This package modifies the definitions of \frontmatter and \mainmatter so
+that page numbering starts in arabic style from the front matter while
+preserving the rest of the original definitions. For it to work,
+\pagenumbering has to be inside these macros--most of classes do that,
+but there are exceptions like memoir.
 
-%prep
-%autosetup -p1 -c -a1
-
-%build
-
-%install
-rm -rf tlpkg
-mkdir -p %{buildroot}%{_texmfdistdir}
-cp -a * %{buildroot}%{_texmfdistdir}
-
-%files
-%{_texmfdistdir}/tex/latex/arabicfront
-%doc %{_texmfdistdir}/doc/latex/arabicfront
-
-%post -p %{_sbindir}/texlive.post
-
-%postun
-[ "$1" -eq 0 ] && %{_sbindir}/texlive.post
