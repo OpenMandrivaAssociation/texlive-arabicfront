@@ -12,9 +12,7 @@ License:	mit
 Source0:	https://mirrors.ctan.org/systems/texlive/tlnet/archive/arabicfront.r%{tl_revision}.tar.xz
 Source1:	https://mirrors.ctan.org/systems/texlive/tlnet/archive/arabicfront.doc.r%{tl_revision}.tar.xz
 BuildArch:	noarch
-BuildSystem:	texlive
-BuildRequires:	texlive-tlpkg
-%texlive_base_requires
+Requires(pre):	texlive-tlpkg
 Provides:	texlive(%{tl_name}) = %{tl_revision}
 
 %description
@@ -24,3 +22,40 @@ preserving the rest of the original definitions. For it to work,
 \pagenumbering has to be inside these macros--most of classes do that,
 but there are exceptions like memoir.
 
+%prep
+%setup -q -c -a1
+rm -rf tlpkg
+if [ -d RELOC ]; then
+	cp -a RELOC/. .
+	rm -rf RELOC
+fi
+
+%build
+
+%install
+mkdir -p %{buildroot}%{_datadir}/texmf-dist
+# Flat tlnet layout: tex/ doc/ source/ fonts/ ... -> texmf-dist/
+if [ -d texmf-dist ]; then
+	cp -a texmf-dist/. %{buildroot}%{_datadir}/texmf-dist/
+elif [ -d texmf ]; then
+	mkdir -p %{buildroot}%{_datadir}/texmf
+	cp -a texmf/. %{buildroot}%{_datadir}/texmf/
+else
+	for d in * .[!.]* ..?*; do
+		[ -e "$d" ] || continue
+		case "$d" in tlpkg|RELOC) continue ;; esac
+		cp -a "$d" %{buildroot}%{_datadir}/texmf-dist/
+	done
+fi
+rm -rf %{buildroot}%{_datadir}/texmf-dist/tlpkg
+
+%files
+%dir %{_datadir}/texmf-dist
+%dir %{_datadir}/texmf-dist/doc
+%dir %{_datadir}/texmf-dist/tex
+%dir %{_datadir}/texmf-dist/doc/latex
+%dir %{_datadir}/texmf-dist/tex/latex
+%dir %{_datadir}/texmf-dist/doc/latex/arabicfront
+%dir %{_datadir}/texmf-dist/tex/latex/arabicfront
+%doc %{_datadir}/texmf-dist/doc/latex/arabicfront/README.md
+%{_datadir}/texmf-dist/tex/latex/arabicfront/arabicfront.sty
